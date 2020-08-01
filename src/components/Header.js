@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import starlinkLogo  from '../assets/images/starlink_logo.svg';
+import starlinkLogo  from '../assets/images/starlink_logo_gold.svg';
 
 class Header extends Component {
     render() {

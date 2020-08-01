@@ -1,9 +1,10 @@
-
 import React, {Component} from 'react';
 import axios from 'axios';
 import SatSetting from './SatSetting';
 import SatelliteList from './SatelliteList';
+import WorldMap from './WorldMap';
 import {NEARBY_SATELLITE, SAT_API_KEY, STARLINK_CATEGORY} from "../constants";
+
 
 class Main extends Component {
     constructor(){
@@ -14,7 +15,6 @@ class Main extends Component {
             isLoadingList: false
         };
     }
-
     showNearbySatellite = (setting) => {
         this.setState({
             settings: setting
@@ -22,7 +22,7 @@ class Main extends Component {
         this.fetchSatellite(setting);
     }
 
-    fetchSatellite = (setting) => {
+    fetchSatellite= (setting) => {
         const {observerLat, observerLong, observerElevation, satAlt} = setting;
         const url = `${NEARBY_SATELLITE}/${observerLat}/${observerLong}/${observerElevation}/${satAlt}/${STARLINK_CATEGORY}/&apiKey=${SAT_API_KEY}`;
 
@@ -43,6 +43,16 @@ class Main extends Component {
             })
     }
 
+    showMap = (selected) => {
+        console.log('show selected -> ', selected)
+
+        this.setState(preState => ({
+            ...preState,
+            satList: [...selected]
+        }))
+
+    }
+
     render() {
         const { satInfo } = this.state;
         return (
@@ -51,10 +61,12 @@ class Main extends Component {
                     <SatSetting onShow={this.showNearbySatellite}/>
                     <SatelliteList satInfo={satInfo}
                                    isLoad={this.state.isLoadingList}
+                                   onShowMap={this.showMap}
                     />
                 </div>
                 <div className="right-side">
-                    right
+                    <WorldMap satData={this.state.satList}
+                              observerData={this.state.settings}/>
                 </div>
             </div>
         );

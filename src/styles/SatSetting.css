@@ -1,16 +1,15 @@
-
 .sat-setting {
     text-align: left;
-    padding: 10px;
+    padding: 5px;
     border: 2px solid #ccc;
 }
 
 .setting-list {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .setting-label {
-    color: #777777;
+    color: #777;
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -31,7 +30,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .duration-slider {
@@ -58,7 +57,7 @@
 
 .show-nearby-btn {
     text-transform: none;
-    padding: 10px 22px;
+    padding: 0px 22px;
     background-color: #2bb673;
     font-size: 1em;
     color: #fff;

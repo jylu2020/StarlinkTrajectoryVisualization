@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {InputNumber, Button, Slider} from 'antd';
 
@@ -124,7 +123,7 @@ class SatSetting extends Component {
                 <div className="show-nearby">
                     <Button
                         className="show-nearby-btn"
-                        size="large"
+                        size="small"
                         onClick={this.showSatellite}
                     >Find Nearby Satellites</Button>
                 </div>

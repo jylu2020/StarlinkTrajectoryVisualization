@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
 // import Hello from './Hello';
 import App from "./components/App";
 import './index.css';
