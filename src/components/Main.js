@@ -5,72 +5,61 @@ import SatelliteList from './SatelliteList';
 import WorldMap from './WorldMap';
 import {NEARBY_SATELLITE, SAT_API_KEY, STARLINK_CATEGORY} from "../constants";
 
-
 class Main extends Component {
     constructor(){
         super();
         this.state = {
             satInfo: null,
-            settings: null,
+            satList: null,
+            setting: null,
             isLoadingList: false
-        };
+        }
     }
+    render() {
+        const { isLoadingList, satInfo, satList, setting } = this.state;
+        return (
+            <div className="main">
+                <div className="left-side">
+                    <SatSetting onShow={this.showNearbySatellite}/>
+                    <SatelliteList isLoad={isLoadingList}
+                                   satInfo={satInfo}
+                                   onShowMap={this.showMap} />
+                </div>
+                <div className="right-side">
+                    <WorldMap satData={satList} observerData={setting} />
+                </div>
+            </div>
+        );
+    }
+
+    showMap = (selected) => {
+        this.setState(preState => ({
+            ...preState,
+            satList: [...selected]
+        }))
+    }
+
     showNearbySatellite = (setting) => {
         this.setState({
-            settings: setting
+            isLoadingList: true,
+            setting: setting
         })
         this.fetchSatellite(setting);
     }
 
-    fetchSatellite= (setting) => {
-        const {observerLat, observerLong, observerElevation, satAlt} = setting;
-        const url = `${NEARBY_SATELLITE}/${observerLat}/${observerLong}/${observerElevation}/${satAlt}/${STARLINK_CATEGORY}/&apiKey=${SAT_API_KEY}`;
-
-        this.setState({
-            isLoadingList: true
-        });
-
+    fetchSatellite = (setting) => {
+        const { observerLat, observerLong, observerElevation, satAlt } = setting;
+        const url = `${NEARBY_SATELLITE}/${observerLat}/${observerLong}/${observerElevation}/${satAlt}/${STARLINK_CATEGORY}&apiKey=${SAT_API_KEY}`;
         axios.get(url)
             .then(response => {
-                console.log(response.data)
                 this.setState({
                     satInfo: response.data,
                     isLoadingList: false
                 })
             })
-            .catch(error => {
-                console.log('err in fetch satellite -> ', error);
+            .catch(err => {
+                console.log('fetch satellite failed -> ', err.message);
             })
     }
-
-    showMap = (selected) => {
-        console.log('show selected -> ', selected)
-
-        this.setState(preState => ({
-            ...preState,
-            satList: [...selected]
-        }))
-
-    }
-
-    render() {
-        const { satInfo } = this.state;
-        return (
-            <div className='main'>
-                <div className="left-side">
-                    <SatSetting onShow={this.showNearbySatellite}/>
-                    <SatelliteList satInfo={satInfo}
-                                   isLoad={this.state.isLoadingList}
-                                   onShowMap={this.showMap}
-                    />
-                </div>
-                <div className="right-side">
-                    <WorldMap satData={this.state.satList}
-                              observerData={this.state.settings}/>
-                </div>
-            </div>
-        );
-    }
 }
-
 export default Main;
